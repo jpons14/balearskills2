@@ -59,7 +59,8 @@ CREATE TABLE `establishments` (
   `cooking_type` longtext COLLATE utf8_unicode_ci NOT NULL,
   `photo` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`name`),
-  FOREIGN KEY (`photo`) REFERENCES photos(`name`)
+  FOREIGN KEY (`photo`) REFERENCES photos(`name`),
+  FOREIGN KEY (`cooking_type`) REFERENCES cooking_type(`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
