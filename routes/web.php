@@ -11,10 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get( '/', function (){
+    return view( 'welcome' );
+} );
+// Route::get('/', array('uses' => 'Frontend\FrontendController@index', 'as' => 'frontend.home'));
+
+//Route::get( '/comments', array( 'uses' ) );
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get( '/home', 'HomeController@index' );
