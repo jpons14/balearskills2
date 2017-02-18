@@ -10,4 +10,9 @@ class Type_cooking extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function establishments(  )
+    {
+        return $this->hasMany('App\Establishment');
+    }
 }

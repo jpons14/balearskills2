@@ -10,6 +10,14 @@ class Photo extends Model
     protected $fillable = [
         'name',
         'route',
-        'alt_text'
+        'alt_text',
+        'establishment_id'
     ];
+
+    public $timestamps = TRUE;
+
+    public function establishmentId(  )
+    {
+        return $this->hasOne('App\Establishment');
+    }
 }

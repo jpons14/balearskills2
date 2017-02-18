@@ -8,12 +8,18 @@ class Comment extends Model
 {
     protected $table = 'comments';
     protected $fillable = [
-        'user', 'establishment', 'text'
+        'user_id', 'establishment_id', 'text'
     ];
 
     public $timestamps = TRUE;
 
-//    public function establishment(){
-//        return $this->hasOne('App\Establishment');
-//    }
+    public function userId( )
+    {
+        return $this->hasOne('App\User');
+    }
+
+    public function establishmentId(){
+        return $this->hasOne('App\Establishment');
+    }
+
 }

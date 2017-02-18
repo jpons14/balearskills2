@@ -32,6 +32,7 @@ class Photos extends Migration
      */
     public function down()
     {
+        Schema::dropForeign('photos_establishment_id_foreign');
         Schema::dropIfExists('photos');
     }
 }

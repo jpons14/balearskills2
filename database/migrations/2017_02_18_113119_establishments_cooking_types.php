@@ -30,6 +30,8 @@ class EstablishmentsCookingTypes extends Migration
      */
     public function down()
     {
+        Schema::dropForeign('establishments_cooking_types_cooking_type_id_foreign');
+        Schema::dropForeign('establishments_cooking_types_establishment_id_foreign');
         Schema::dropIfExists('establishments_cooking_types');
     }
 }

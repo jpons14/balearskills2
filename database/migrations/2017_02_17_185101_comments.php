@@ -32,6 +32,8 @@ class Comments extends Migration
      */
     public function down()
     {
+        Schema::dropForeign('comments_establishment_id_foreign');
+        Schema::dropForeign('comments_user_id_foreign');
         Schema::dropIfExists('comments');
     }
 }
