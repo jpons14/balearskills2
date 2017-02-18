@@ -13,7 +13,7 @@ class Comment extends Model
 
     public $timestamps = TRUE;
 
-    public function establishment(){
-        return $this->hasOne('App\Establishment');
-    }
+//    public function establishment(){
+//        return $this->hasOne('App\Establishment');
+//    }
 }

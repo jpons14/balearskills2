@@ -15,12 +15,13 @@ class Comments extends Migration
     {
         Schema::create('comments', function (Blueprint $table){
             $table->increments('id');
-            $table->string('user');
-            $table->integer('establishment_id');
+            $table->integer('user_id')->unsigned();
+            $table->integer('establishment_id')->unsigned();
             $table->text('text');
-            $table->timestamps();
+            $table->timestamps( );
 
             $table->foreign('establishment_id')->references('id')->on('establishments');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

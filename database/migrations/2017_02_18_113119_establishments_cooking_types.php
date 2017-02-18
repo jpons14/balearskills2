@@ -15,8 +15,8 @@ class EstablishmentsCookingTypes extends Migration
     {
         Schema::create('establishments_cooking_types', function (Blueprint $table){
             $table->increments('id');
-            $table->integer('establishment_id');
-            $table->integer('cooking_type_id');
+            $table->integer('establishment_id')->unsigned();
+            $table->integer('cooking_type_id')->unsigned();
 
             $table->foreign('establishment_id')->references('id')->on('establishments');
             $table->foreign('cooking_type_id')->references('id')->on('cooking_types');

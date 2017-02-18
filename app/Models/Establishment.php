@@ -12,10 +12,10 @@ class Establishment extends Model
         'city', 'address', 'phone', 'web', 'price', 'cooking_type', 'photo'
     ];
     
-    public function cooking_type(){
-        return $this->hasMany('App\Type_cooking');
-    }
-    public function photo(){
-        return $this->hasMany('App\Photo');
-    }
+//    public function cooking_type(){
+//        return $this->hasMany('App\Type_cooking');
+//    }
+//    public function photo(){
+//        return $this->hasMany('App\Photo');
+//    }
 }

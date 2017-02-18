@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CookingType extends Migration
+class CookingTypes extends Migration
 {
     /**
      * Run the migrations.
@@ -26,6 +26,6 @@ class CookingType extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cooking_type');
+        Schema::dropIfExists('cooking_types');
     }
 }

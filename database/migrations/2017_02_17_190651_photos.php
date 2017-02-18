@@ -18,7 +18,8 @@ class Photos extends Migration
             $table->string('name');
             $table->text('route');
             $table->text('alt_text');
-            $table->integer('establishment_id');
+            $table->integer('establishment_id')->unsigned();
+            $table->timestamps();
 
             $table->foreign('establishment_id')->references('id')->on('establishments');
         });
