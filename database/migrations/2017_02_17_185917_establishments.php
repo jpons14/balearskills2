@@ -14,6 +14,7 @@ class Establishments extends Migration
     public function up()
     {
         Schema::create('establishments', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('name');
             $table->longText('description_esp');
             $table->longText('description_cat');
@@ -24,8 +25,6 @@ class Establishments extends Migration
             $table->string('phone');
             $table->text('web');
             $table->string('price');
-            $table->text('cooking_type');
-            $table->string('photo');
             $table->timestamps();
         });
     }

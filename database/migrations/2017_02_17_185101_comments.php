@@ -16,9 +16,11 @@ class Comments extends Migration
         Schema::create('comments', function (Blueprint $table){
             $table->increments('id');
             $table->string('user');
-            $table->string('establishment');
+            $table->integer('establishment_id');
             $table->text('text');
             $table->timestamps();
+
+            $table->foreign('establishment_id')->references('id')->on('establishments');
         });
     }
 

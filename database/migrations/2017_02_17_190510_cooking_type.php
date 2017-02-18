@@ -13,7 +13,8 @@ class CookingType extends Migration
      */
     public function up()
     {
-        Schema::create('cooking_type', function (Blueprint $table) {
+        Schema::create('cooking_types', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('name');
         });
     }

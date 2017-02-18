@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Photos extends Migration
+class EstablishmentsCookingTypes extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class Photos extends Migration
      */
     public function up()
     {
-        Schema::create('photos', function (Blueprint $table) {
+        Schema::create('establishments_cooking_types', function (Blueprint $table){
             $table->increments('id');
-            $table->string('name');
-            $table->text('route');
-            $table->text('alt_text');
             $table->integer('establishment_id');
+            $table->integer('cooking_type_id');
 
             $table->foreign('establishment_id')->references('id')->on('establishments');
+            $table->foreign('cooking_type_id')->references('id')->on('cooking_types');
         });
     }
 
@@ -31,6 +30,6 @@ class Photos extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('photos');
+        Schema::dropIfExists('establishments_cooking_types');
     }
 }
