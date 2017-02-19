@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Models\TypeCooking;
+use App\Models\CookingType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,7 +15,7 @@ class CookingTypesController extends Controller
      */
     public function index()
     {
-        $cookingTypes = TypeCooking::all();
+        $cookingTypes = CookingType::all();
         return view( 'backend.cookingTypes.index', [
             'cookingTypes' => $cookingTypes
         ] );
@@ -39,23 +39,22 @@ class CookingTypesController extends Controller
      */
     public function store( Request $request )
     {
-        $cookingType = new TypeCooking();
+        $cookingType = new CookingType();
         if ( isset( $request->name ) && $request != '' ) {
             $cookingType->name = $request->name();
         }
-        $cookingType->save();
-        return redirect()->route( 'cookingTypes.show' );
+        $cookingType = $cookingType->save();
+        return redirect()->route( 'cookingTypes.show', $cookingType->id );
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param CookingType $cookingType
      * @return \Illuminate\Http\Response
      */
-    public function show( $id )
+    public function show( CookingType $cookingType )
     {
-        $cookingType = TypeCooking::find( $id );
         return view( 'backend.cookingTypes.show', [
             'cookingType' => $cookingType
         ] );
@@ -69,7 +68,7 @@ class CookingTypesController extends Controller
      */
     public function edit( $id )
     {
-        $cookingType = TypeCooking::find( $id );
+        $cookingType = CookingType::find( $id );
         return view( 'backend . cookingTypes . edit', [
             'cookingType' => $cookingType
         ]);
@@ -84,12 +83,12 @@ class CookingTypesController extends Controller
      */
     public function update( Request $request, $id )
     {
-        $cookingType = TypeCooking::find($id);
+        $cookingType = CookingType::find($id);
         if (isset($request->name) && $request->name != '') {
             $cookingType->name = $request->name;
         }
-        $cookingType->save();
-        return redirect()->route('cookingTypes.show');
+        $cookingType = $cookingType->save();
+        return redirect()->route('cookingTypes.show', $cookingType->id);
     }
 
     /**
@@ -100,7 +99,7 @@ class CookingTypesController extends Controller
      */
     public function destroy( $id )
     {
-        TypeCooking::destroy($id);
+        CookingType::destroy($id);
         return redirect()->route('cookingTypes.index');
     }
 }
