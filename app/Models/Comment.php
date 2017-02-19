@@ -13,13 +13,14 @@ class Comment extends Model
 
     public $timestamps = TRUE;
 
-    public function userId( )
+    public function user()
     {
-        return $this->hasOne('App\User');
+        return $this->belongsTo( 'App\User' );
     }
 
-    public function establishmentId(){
-        return $this->hasOne('App\Establishment');
+    public function establishment()
+    {
+        return $this->belongsTo( 'App\Establishment' );
     }
 
 }

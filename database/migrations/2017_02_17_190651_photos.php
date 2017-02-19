@@ -15,10 +15,10 @@ class Photos extends Migration
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('establishment_id')->unsigned();
             $table->string('name');
             $table->text('route');
             $table->text('alt_text');
-            $table->integer('establishment_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('establishment_id')->references('id')->on('establishments');
