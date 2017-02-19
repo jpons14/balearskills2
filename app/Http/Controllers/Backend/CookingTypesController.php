@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Type_cooking;
+use App\Models\TypeCooking;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Mockery\Matcher\Type;
 
 class CookingTypesController extends Controller
 {
@@ -16,8 +15,8 @@ class CookingTypesController extends Controller
      */
     public function index()
     {
-        $cookingTypes = Type_cooking::all();
-        return view( 'welcome', [
+        $cookingTypes = TypeCooking::all();
+        return view( 'backend.cookingTypes.index', [
             'cookingTypes' => $cookingTypes
         ] );
     }
@@ -40,10 +39,12 @@ class CookingTypesController extends Controller
      */
     public function store( Request $request )
     {
-        $cookingType = new Type_cooking();
-        $input = $request->all();
-        $cookingType->create( $input );
-        return; // por hacer
+        $cookingType = new TypeCooking();
+        if ( isset( $request->name ) && $request != '' ) {
+            $cookingType->name = $request->name();
+        }
+        $cookingType->save();
+        return redirect()->route( 'cookingTypes.show' );
     }
 
     /**
@@ -54,8 +55,10 @@ class CookingTypesController extends Controller
      */
     public function show( $id )
     {
-        $cookingType = Type_cooking::find( $id );
-        return view( 'backend.cookingTypes.show' )->with( 'cookingType', $cookingType );
+        $cookingType = TypeCooking::find( $id );
+        return view( 'backend.cookingTypes.show', [
+            'cookingType' => $cookingType
+        ] );
     }
 
     /**
@@ -66,8 +69,8 @@ class CookingTypesController extends Controller
      */
     public function edit( $id )
     {
-        $cookingType = Type_cooking::find( $id );
-        return view( 'backend.cookingTypes.edit', [
+        $cookingType = TypeCooking::find( $id );
+        return view( 'backend . cookingTypes . edit', [
             'cookingType' => $cookingType
         ]);
     }
@@ -81,10 +84,12 @@ class CookingTypesController extends Controller
      */
     public function update( Request $request, $id )
     {
-        $cookingType = Type_cooking::find($id);
-        $input = $request->all();
-        $cookingType->update($input);
-        return; // por hacer
+        $cookingType = TypeCooking::find($id);
+        if (isset($request->name) && $request->name != '') {
+            $cookingType->name = $request->name;
+        }
+        $cookingType->save();
+        return redirect()->route('cookingTypes.show');
     }
 
     /**
@@ -95,7 +100,7 @@ class CookingTypesController extends Controller
      */
     public function destroy( $id )
     {
-        Type_cooking::destroy($id);
-        return; // por hacer
+        TypeCooking::destroy($id);
+        return redirect()->route('cookingTypes.index');
     }
 }
