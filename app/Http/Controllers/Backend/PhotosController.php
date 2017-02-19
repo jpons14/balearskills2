@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class CookingTypesController extends Controller
+class PhotosController extends Controller
 {
     /**
      * Display a listing of the resource.
