@@ -34,7 +34,7 @@ class CookingTypesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function store( Request $request )
@@ -62,13 +62,12 @@ class CookingTypesController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int $id
+     * @param $id
      * @return \Illuminate\Http\Response
      */
     public function edit( $id )
     {
-        $cookingType = CookingType::find( $id );
+        $cookingType = CookingType::find($id);
         return view( 'backend . cookingTypes . edit', [
             'cookingType' => $cookingType
         ]);
@@ -77,12 +76,12 @@ class CookingTypesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function update( Request $request, $id )
+    public function update( $id )
     {
+        $request = Request::all();
         $cookingType = CookingType::find($id);
         if (isset($request->name) && $request->name != '') {
             $cookingType->name = $request->name;
