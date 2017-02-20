@@ -41,9 +41,10 @@ class CookingTypesController extends Controller
     {
         $cookingType = new CookingType();
         if ( isset( $request->name ) && $request != '' ) {
-            $cookingType->name = $request->name();
+            $cookingType->name = $request->name;
+            $cookingType->save();
+            \Session::set('message', 'Cooking type created successfully');
         }
-        $cookingType = $cookingType->save();
         return redirect()->route( 'cookingTypes.show', $cookingType->id );
     }
 
@@ -68,7 +69,7 @@ class CookingTypesController extends Controller
     public function edit( $id )
     {
         $cookingType = CookingType::find($id);
-        return view( 'backend . cookingTypes . edit', [
+        return view( 'backend.cookingTypes.edit', [
             'cookingType' => $cookingType
         ]);
     }
@@ -81,12 +82,13 @@ class CookingTypesController extends Controller
      */
     public function update( $id )
     {
-        $request = Request::all();
+        $request = \Request::all();
         $cookingType = CookingType::find($id);
-        if (isset($request->name) && $request->name != '') {
-            $cookingType->name = $request->name;
+        if (isset($request['name']) && $request['name'] != '') {
+            $cookingType->name = $request['name'];
+            $cookingType->save();
+            \Session::set('message', 'Comment updated successfully');
         }
-        $cookingType = $cookingType->save();
         return redirect()->route('cookingTypes.show', $cookingType->id);
     }
 
@@ -98,7 +100,10 @@ class CookingTypesController extends Controller
      */
     public function destroy( $id )
     {
-        CookingType::destroy($id);
+        $cookingType = CookingType::find($id);
+        $cookingType->delete();
+//        CookingType::destroy($id);
+        \Session::set('message', 'Cooking type deleted successfully');
         return redirect()->route('cookingTypes.index');
     }
 }

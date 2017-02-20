@@ -11,6 +11,8 @@ class CookingType extends Model
         'name'
     ];
 
+    public $timestamps = FALSE;
+
     public function establishments()
     {
         return $this->hasMany( 'App\Establishment' );

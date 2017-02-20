@@ -49,6 +49,7 @@
                 @if(!Auth::guest())
                     <ul class="nav navbar-nav navbar-left">
                         <li><a href="{{route('comments.index')}}">Comentarios</a> </li>
+                        <li><a href="{{route('cookingTypes.index')}}">Tipos Cocina</a> </li>
                     </ul>
                 @endif
             <!-- Right Side Of Navbar -->
@@ -85,6 +86,17 @@
         </div>
     </nav>
 
+    <?php
+    $session = Session::get('message');
+    ?>
+    @if(isset($session))
+        <div class="alert alert-success">
+            <strong>{{Session::get('message')}}</strong>
+            <?php
+            Session::remove( 'message' );
+            ?>
+        </div>
+    @endif
     @yield('content')
 </div>
 
