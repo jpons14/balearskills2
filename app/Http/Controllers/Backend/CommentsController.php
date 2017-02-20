@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+
 class CommentsController extends Controller
 {
     /**
@@ -94,10 +95,14 @@ class CommentsController extends Controller
         $comment = Comment::find( $id );
         $user = $comment->user;
         $establishment = $comment->establishment;
+        $users = User::all();
+        $establishments = Establishment::all();
         return view( 'backend.comments.edit', [
             'comment' => $comment,
-            'user' => $user,
-            'establishment' => $establishment
+            'userSelected' => $user,
+            'users' => $users,
+            'establishmentSelected' => $establishment,
+            'establishments' => $establishments
         ] );
     }
 
@@ -109,22 +114,20 @@ class CommentsController extends Controller
      */
     public function update( $id )
     {
-        $request = Request::sll();
+        $request = \Request::all();
         $comment = Comment::find( $id );
         if (
-            isset( $request->user ) && $request->user != ''
-            && isset( $request->establishment ) && $request->establishment != ''
-            && isset( $request->text ) && $request->text != ''
+            isset( $request[ 'user' ] ) && $request[ 'user' ] != ''
+            && isset( $request[ 'establishment' ] ) && $request[ 'establishment' ] != ''
+            && isset( $request[ 'text' ] ) && $request[ 'text' ] != ''
         ) {
-            $comment->user = $request->user;
-            $comment->establishment = $request->establishment;
-            $comment->text = $request->text;
-            $comment = $comment->save();
+            $comment->user_id = $request[ 'user' ];
+            $comment->establishment_id = $request[ 'establishment' ];
+            $comment->text = $request[ 'text' ];
+            $comment->save();
+            \Session::set('message', 'Comment updated successfully');
         }
-        return redirect()->route( ' comment.show', [
-            'comment' => $comment->id,
-            'message' => 'Comment updated successfully'
-        ] );
+        return redirect()->route( 'comments.show', $comment->id);
     }
 
     /**
