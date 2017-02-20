@@ -35,7 +35,7 @@ class CommentsController extends Controller
         return view( 'backend.comments.create', [
             'users' => $users,
             'establishments' => $establishments
-        ]);
+        ] );
     }
 
     /**
@@ -60,10 +60,10 @@ class CommentsController extends Controller
         } else {
             $message = 'The comment could not be created';
         }
-        return redirect()->route('comment.show', [
+        return redirect()->route( 'comment.show', [
             'comment' => $comment->id,
             'message' => $message
-        ]);
+        ] );
     }
 
     /**
@@ -76,11 +76,11 @@ class CommentsController extends Controller
     {
         $user = $comment->user;
         $establishment = $comment->establishment;
-        return view('backend.comments.show', [
+        return view( 'backend.comments.show', [
             'comment' => $comment,
             'user' => $user,
             'establishment' => $establishment
-        ]);
+        ] );
     }
 
     /**
@@ -91,14 +91,14 @@ class CommentsController extends Controller
      */
     public function edit( $id )
     {
-        $comment = Comment::find($id);
+        $comment = Comment::find( $id );
         $user = $comment->user;
         $establishment = $comment->establishment;
-        return view('backend.comments.edit', [
+        return view( 'backend.comments.edit', [
             'comment' => $comment,
             'user' => $user,
             'establishment' => $establishment
-        ]);
+        ] );
     }
 
     /**
@@ -110,7 +110,7 @@ class CommentsController extends Controller
     public function update( $id )
     {
         $request = Request::sll();
-        $comment = Comment::find($id);
+        $comment = Comment::find( $id );
         if (
             isset( $request->user ) && $request->user != ''
             && isset( $request->establishment ) && $request->establishment != ''
@@ -121,10 +121,10 @@ class CommentsController extends Controller
             $comment->text = $request->text;
             $comment = $comment->save();
         }
-        return redirect()->route('comment.show', [
+        return redirect()->route( ' comment.show', [
             'comment' => $comment->id,
             'message' => 'Comment updated successfully'
-        ]);
+        ] );
     }
 
     /**
@@ -135,9 +135,9 @@ class CommentsController extends Controller
      */
     public function destroy( $id )
     {
-        Comment::destroy($id);
-        return redirect()->route('comments.index',[
+        Comment::destroy( $id );
+        return redirect()->route( 'comments.index', [
             'message' => 'Comment deleted successfully'
-        ]);
+        ] );
     }
 }
