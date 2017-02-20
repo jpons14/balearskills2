@@ -19,7 +19,11 @@
                         <td>{{$comment->user->email}}</td>
                         <td>{{$comment->establishment->name}}</td>
                         <td><a href="{{route('comments.edit', $comment->id)}}"><i class="fa fa-pencil"></i> </a></td>
-                        <td><a href="/comments/delete/{{$comment->id}}"><i class="fa fa-times"></i> </a></td>
+                        <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
+                            <input type="hidden" name="_method" value="DELETE" />
+                            <input type="hidden" name="_token" value="{{csrf_token()}}"/>
+                            <td><i class="fa fa-times onhover" onclick="$('form').submit();"></i> </td>
+                        </form>
                     </tr>
                 @endforeach
                 </tbody>

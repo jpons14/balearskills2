@@ -139,8 +139,7 @@ class CommentsController extends Controller
     public function destroy( $id )
     {
         Comment::destroy( $id );
-        return redirect()->route( 'comments.index', [
-            'message' => 'Comment deleted successfully'
-        ] );
+        \Session::set('message', 'Comment deleted successfully');
+        return redirect()->route( 'comments.index');
     }
 }

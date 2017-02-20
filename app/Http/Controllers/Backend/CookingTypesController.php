@@ -100,9 +100,9 @@ class CookingTypesController extends Controller
      */
     public function destroy( $id )
     {
-        $cookingType = CookingType::find($id);
-        $cookingType->delete();
-//        CookingType::destroy($id);
+//        $cookingType = CookingType::find($id);
+//        $cookingType->delete();
+        CookingType::destroy($id);
         \Session::set('message', 'Cooking type deleted successfully');
         return redirect()->route('cookingTypes.index');
     }

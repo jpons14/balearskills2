@@ -18,8 +18,12 @@
                         <td>{{$cookingType->name}}</td>
                         <td><a href="{{ route('cookingTypes.edit', $cookingType->id) }}"><i class="fa fa-pencil"></i>
                             </a></td>
-                        <td><a href="{{ route('cookingTypes.destroy', $cookingType->id) }}" data-method="delete"
-                               data-token="{{ csrf_token() }}" ><i class="fa fa-times"></i> </a></td>
+                        <td>
+                            <form action="{{ route('cookingTypes.destroy', $cookingType->id) }}" method="POST">
+                                <input type="hidden" name="_method" value="DELETE"/>
+                                <input type="hidden" name="_token" value="{{csrf_token()}}"/>
+                        <td><i class="fa fa-times onhover" onclick="$('form').submit();"></i></td>
+                        </form></td>
                     </tr>
                 @endforeach
                 </tbody>
