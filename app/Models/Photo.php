@@ -16,8 +16,8 @@ class Photo extends Model
 
     public $timestamps = TRUE;
 
-    public function establishmentId()
+    public function establishment()
     {
-        return $this->belongsTo( 'App\Establishment' );
+        return $this->belongsTo( 'App\Models\Establishment' );
     }
 }

@@ -15,9 +15,9 @@ class Establishment extends Model
     public $timestamps = TRUE;
 
     public function cookingTypes(){
-        return $this->hasMany('App\Type_cooking');
+        return $this->hasMany('App\Models\Type_cooking');
     }
     public function photos(){
-        return $this->hasMany('App\Photo');
+        return $this->hasMany('App\Models\Photo');
     }
 }

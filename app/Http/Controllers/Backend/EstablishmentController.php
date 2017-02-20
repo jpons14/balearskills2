@@ -43,8 +43,8 @@ class EstablishmentController extends Controller
         $establishment = new Establishment();
         if (
             isset( $request->name ) && $request->name != ''
-            && isset( $request->descripcio_esp ) && $request->descripcio_esp != ''
-            && isset( $request->descripcio_cat ) && $request->descripcio_cat != ''
+            && isset( $request->description_esp ) && $request->description_esp != ''
+            && isset( $request->description_cat ) && $request->description_cat != ''
             && isset( $request->timetable_esp ) && $request->timetable_esp != ''
             && isset( $request->timetable_cat ) && $request->timetable_cat != ''
             && isset( $request->city ) && $request->city != ''
@@ -53,23 +53,22 @@ class EstablishmentController extends Controller
             && isset( $request->price ) && $request->price != ''
         ) {
             $establishment->name = $request->name;
-            $establishment->descripcio_esp = $request->descripcio_esp;
-            $establishment->descripcio_cat = $request->descripcio_cat;
+            $establishment->description_esp = $request->description_esp;
+            $establishment->description_cat = $request->description_cat;
             $establishment->timetable_esp = $request->timetable_esp;
+            $establishment->timetable_cat = $request->timetable_cat;
+            $establishment->address = $request->address;
             $establishment->city = $request->city;
             $establishment->phone = $request->phone;
             $establishment->web = $request->web;
             $establishment->web = $request->web;
             $establishment->price = $request->price;
-            $establishment = $establishment->save();
+            $establishment->save();
             $message = 'Establishment created successfully';
         } else {
             $message = 'The establishment could not be created';
         }
-        return redirect()->route('establishments.show', [
-            'establishment' => $establishment,
-            'message' => $message
-        ]);
+        return redirect()->route('establishments.show', $establishment );
     }
 
     /**
@@ -111,8 +110,8 @@ class EstablishmentController extends Controller
         $establishment = Establishment::find($id);
         if (
             isset( $request->name ) && $request->name != ''
-            && isset( $request->descripcio_esp ) && $request->descripcio_esp != ''
-            && isset( $request->descripcio_cat ) && $request->descripcio_cat != ''
+            && isset( $request->description_esp ) && $request->description_esp != ''
+            && isset( $request->description_cat ) && $request->description_cat != ''
             && isset( $request->timetable_esp ) && $request->timetable_esp != ''
             && isset( $request->timetable_cat ) && $request->timetable_cat != ''
             && isset( $request->city ) && $request->city != ''
@@ -121,23 +120,20 @@ class EstablishmentController extends Controller
             && isset( $request->price ) && $request->price != ''
         ) {
             $establishment->name = $request->name;
-            $establishment->descripcio_esp = $request->descripcio_esp;
-            $establishment->descripcio_cat = $request->descripcio_cat;
+            $establishment->description_esp = $request->description_esp;
+            $establishment->description_cat = $request->description_cat;
             $establishment->timetable_esp = $request->timetable_esp;
             $establishment->city = $request->city;
             $establishment->phone = $request->phone;
             $establishment->web = $request->web;
             $establishment->web = $request->web;
             $establishment->price = $request->price;
-            $establishment = $establishment->save();
+            $establishment->save();
             $message = 'Establishment updated successfully';
         } else {
             $message = 'The establishment could not be updated';
         }
-        return redirect()->route('establishments.show', [
-            'establishment' => $establishment,
-            'message' => $message
-        ]);
+        return redirect()->route('establishments.show', $establishment);
     }
 
     /**

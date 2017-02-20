@@ -15,6 +15,6 @@ class CookingType extends Model
 
     public function establishments()
     {
-        return $this->hasMany( 'App\Establishment' );
+        return $this->hasMany( 'App\Models\Establishment' );
     }
 }
