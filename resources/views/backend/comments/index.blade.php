@@ -2,7 +2,7 @@
 @section('content')
     <div class="container">
         <div class="col-md-12">
-            <table class="table">
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>Id</th>
@@ -32,12 +32,9 @@
     </div>
     <div class="container">
         <div class="col-md-10">
-            <a class="btn btn-default" href="{{ route('comments.create') }}">Afegir comentari</a>
+            <a class="btn btn-default" href="{{ route('comments.create') }}">Añadir comentario</a>
         </div>
     </div>
-    @if(isset($message))
-        <div id="snackbar"> {{$message }} </div>
-    @endif
     <br/>
     <br/>
 @endsection

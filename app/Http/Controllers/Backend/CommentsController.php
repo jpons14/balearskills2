@@ -47,21 +47,22 @@ class CommentsController extends Controller
      */
     public function store( Request $request )
     {
+//        dd($request->user);
         $comment = new Comment();
         if (
             isset( $request->user ) && $request->user != ''
             && isset( $request->establishment ) && $request->establishment != ''
             && isset( $request->text ) && $request->text != ''
         ) {
-            $comment->user = $request->user;
-            $comment->establishment = $request->establishment;
+            $comment->user_id = $request->user;
+            $comment->establishment_id = $request->establishment;
             $comment->text = $request->text;
-            $comment = $comment->save();
+            $comment->save();
             $message = 'Comment created successfully';
         } else {
             $message = 'The comment could not be created';
         }
-        return redirect()->route( 'comment.show', [
+        return redirect()->route( 'comments.show', [
             'comment' => $comment->id,
             'message' => $message
         ] );

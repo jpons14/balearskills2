@@ -51,6 +51,7 @@
                     <ul class="nav navbar-nav navbar-left">
                         <li><a href="{{route('comments.index')}}">Comentarios</a> </li>
                         <li><a href="{{route('cookingTypes.index')}}">Tipos Cocina</a> </li>
+                        <li><a href="{{route('establishments.index')}}">Establecimientos</a> </li>
                     </ul>
                 @endif
             <!-- Right Side Of Navbar -->
