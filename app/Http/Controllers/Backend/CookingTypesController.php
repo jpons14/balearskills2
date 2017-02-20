@@ -88,6 +88,7 @@ class CookingTypesController extends Controller
             $cookingType->name = $request['name'];
             $cookingType->save();
             \Session::set('message', 'Comment updated successfully');
+            \Session::set('typeAlert', 'alert-success');
         }
         return redirect()->route('cookingTypes.show', $cookingType->id);
     }
@@ -100,10 +101,9 @@ class CookingTypesController extends Controller
      */
     public function destroy( $id )
     {
-//        $cookingType = CookingType::find($id);
-//        $cookingType->delete();
         CookingType::destroy($id);
         \Session::set('message', 'Cooking type deleted successfully');
+        \Session::set('typeAlert', 'alert-danger');
         return redirect()->route('cookingTypes.index');
     }
 }

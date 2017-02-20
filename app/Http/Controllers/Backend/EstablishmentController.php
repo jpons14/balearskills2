@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backend;
 use App\Models\Establishment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use spec\Prophecy\Exception\Doubler\MethodNotExtendableExceptionSpec;
 
 class EstablishmentController extends Controller
 {
@@ -64,9 +63,11 @@ class EstablishmentController extends Controller
             $establishment->web = $request->web;
             $establishment->price = $request->price;
             $establishment->save();
-            $message = 'Establishment created successfully';
+            \Session::set('message', 'Establishment created successfully');
+            \Session::set('typeAlert', 'alert-success');
         } else {
-            $message = 'The establishment could not be created';
+            \Session::set('message','The establishment could not be created');
+            \Session::set('typeAlert', 'alert-warning');
         }
         return redirect()->route('establishments.show', $establishment );
     }
@@ -129,9 +130,11 @@ class EstablishmentController extends Controller
             $establishment->web = $request->web;
             $establishment->price = $request->price;
             $establishment->save();
-            $message = 'Establishment updated successfully';
+            \Session::set('message','Establishment updated successfully');
+            \Session::set('typeAlert', 'alert-success');
         } else {
-            $message = 'The establishment could not be updated';
+            \Session::set('message','The establishment could not be updated');
+            \Session::set('typeAlert', 'alert-warning');
         }
         return redirect()->route('establishments.show', $establishment);
     }
@@ -145,8 +148,8 @@ class EstablishmentController extends Controller
     public function destroy( $id )
     {
         Establishment::destroy($id);
-        return redirect()->route('establishments.index', [
-            'message' => 'Comment deleted successfully'
-        ]);
+        \Session::set('message', 'Establishment deleted successfully');
+        \Session::set('typeAlert', 'alert-danger');
+        return redirect()->route('establishments.index');
     }
 }

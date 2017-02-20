@@ -92,7 +92,7 @@
     $session = Session::get('message');
     ?>
     @if(isset($session))
-        <div class="alert alert-success">
+        <div class="alert {{Session::get('typeAlert')}}">
             <strong>{{Session::get('message')}}</strong>
             <?php
             Session::remove( 'message' );
