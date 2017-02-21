@@ -23,7 +23,9 @@ class CookingTypesTableSeeder extends Seeder
         $tipuss = array_unique($tipuss);
         foreach ($tipuss as $item) {
             DB::table('cooking_types')->insert([
-                'name' => $item
+                'name' => $item,
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
             ]);
         }
     }

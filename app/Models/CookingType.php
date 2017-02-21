@@ -11,7 +11,7 @@ class CookingType extends Model
         'name'
     ];
 
-    public $timestamps = FALSE;
+    public $timestamps = TRUE;
 
     public function establishments()
     {

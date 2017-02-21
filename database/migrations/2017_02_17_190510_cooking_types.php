@@ -16,6 +16,7 @@ class CookingTypes extends Migration
         Schema::create('cooking_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->timestamps();
         });
     }
 
