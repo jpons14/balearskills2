@@ -13,12 +13,13 @@
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
     <link href="/css/custom.css" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <!-- Scripts -->
     <script>
-        window.Laravel = <?php echo json_encode( [
+        window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
-        ] ); ?>
+        ]); ?>
     </script>
 </head>
 <body>
@@ -49,11 +50,11 @@
                 </ul>
                 @if(!Auth::guest())
                     <ul class="nav navbar-nav navbar-left">
-                        <li><a href="{{route('comments.index')}}">Comentarios</a> </li>
-                        <li><a href="{{route('cookingTypes.index')}}">Tipos Cocina</a> </li>
-                        <li><a href="{{route('establishments.index')}}">Establecimientos</a> </li>
+                        <li><a href="{{route('comments.index')}}">Comentarios</a></li>
+                        <li><a href="{{route('cookingTypes.index')}}">Tipos Cocina</a></li>
+                        <li><a href="{{route('establishments.index')}}">Establecimientos</a></li>
                     </ul>
-                @endif
+            @endif
             <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
@@ -88,17 +89,9 @@
         </div>
     </nav>
 
-    <?php
-    $session = Session::get('message');
-    ?>
-    @if(isset($session))
-        <div class="alert {{Session::get('typeAlert')}}">
-            <strong>{{Session::get('message')}}</strong>
-            <?php
-            Session::remove( 'message' );
-            ?>
-        </div>
-    @endif
+    <div class="alert-error">
+        <strong>{{Session::get('errorMessage')}}</strong>
+    </div>
     @yield('content')
 </div>
 

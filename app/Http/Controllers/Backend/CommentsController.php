@@ -7,6 +7,7 @@ use App\Models\Establishment;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Session;
 
 
 class CommentsController extends Controller
@@ -32,6 +33,8 @@ class CommentsController extends Controller
     public function create()
     {
         $users = User::all();
+//        if (isset(Session::get('errorMessage'))
+//            dd(Session::get('errorMessage'));
         $establishments = Establishment::all();
         return view( 'backend.comments.create', [
             'users' => $users,
@@ -47,25 +50,41 @@ class CommentsController extends Controller
      */
     public function store( Request $request )
     {
-//        dd($request->user);
+        $error = false;
         $comment = new Comment();
-        if (
-            isset( $request->user ) && $request->user != ''
-            && isset( $request->establishment ) && $request->establishment != ''
-            && isset( $request->text ) && $request->text != ''
-        ) {
-            $comment->user_id = $request->user;
-            $comment->establishment_id = $request->establishment;
-            $comment->text = $request->text;
-            $comment->save();
-            $message = 'Comment created successfully';
-        } else {
-            $message = 'The comment could not be created';
+
+        if (!isset($request->user) || $request->user == ''){
+            $error = true;
+            $errorMessage = 'User param is needed';
         }
-        return redirect()->route( 'comments.show', [
-            'comment' => $comment->id,
-            'message' => $message
-        ] );
+        if (!isset($request->establishment) || $request->establishment == ''){
+            $error = true;
+            $errorMessage = 'Establishment param is needed';
+        }
+        if (!isset($request->text) || $request->text == ''){
+            $error = true;
+            $errorMessage = 'Text param is needed';
+        }
+        if ($error){
+            Session::flash('errorMessage', $errorMessage);
+            Session::flash('request', $request);
+            return redirect()->route('comments.create');
+        }
+
+        $comment->user_id = $request->user;
+        $comment->establishment_id = $request->establishment;
+        $comment->text = $request->text;
+
+        if (!$comment->save()){
+            $errorMessage = 'The comment could not be created';
+            Session::flash('errorMessage', $errorMessage);
+            Session::flash('requeset', $request);
+            return redirect()->route('comments.create');
+        }
+
+        $successMessage = 'Comment created successfully';
+        Session::flash('successMessage', $successMessage);
+        return redirect()->route('comments.show', $comment->id);
     }
 
     /**
