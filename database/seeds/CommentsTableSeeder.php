@@ -16,7 +16,7 @@ class CommentsTableSeeder extends Seeder
         $xml = simplexml_load_string($comments);
         foreach ($xml as $item) {
             DB::table('comments')->insert([
-                'user_id' => 1,
+                'user_id' =>  ,
                 'establishment_id' => 1,
                 'text' => $item->text,
                 'created_at' => date("Y-m-d H:i:s"),
