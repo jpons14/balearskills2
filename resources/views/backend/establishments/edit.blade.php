@@ -1,5 +1,13 @@
 @extends('layouts.app')
 @section('content')
+    @if (isset(session('data')['errorMessage']))
+        <div class="container">
+            <div class="alert alert-danger alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{ session('data')['errorMessage'] }}
+            </div>
+        </div>
+    @endif
     <form action="{{ route('establishments.update', $establishment->id) }}" method="post" >
         <input type="hidden" name="_method" value="put" />
         <div class="container">

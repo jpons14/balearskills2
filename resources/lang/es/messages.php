@@ -28,6 +28,27 @@ return [
             'no' => [
                 'cookingType' => 'No hay ningún tipo de cocina'
             ]
+        ],
+        'establishments' => [
+            'couldnt' => [
+                'created' => 'El establecimiento no ha podido ser creado',
+                'updated' => 'El establecimiento no se ha podido actualizar',
+                'deleted' => 'El establecimiento no se ha podido eliminar',
+            ],
+            'needed' => [
+                'name' => 'El parámetro del nombre del establecimiento es necesario',
+                'description_esp' => 'El parámetro de la descripción en español del establecimiento es necesario',
+                'description_cat' => 'El parámetro de la descripción en català es necesario',
+                'timetable_esp' => 'El parámetro del horario en español del establecimiento es necesario',
+                'timetable_cat' => 'El parámetro del horario en català del establecimiento es necesario',
+                'city' => 'El parámetro de la ciudad del establecimiento es necesario',
+                'phone' => 'El parámetro del teléfono del establecimiento es necesario',
+                'web' => 'El parámetro de la web del establecimiento es necesario',
+                'price' => 'El parámetro del precio del establecimiento es necesario',
+            ],
+            'no' => [
+                'establishment' => 'No hay ningún establecimiento'
+            ]
         ]
     ],
     'success' => [
@@ -40,6 +61,11 @@ return [
             'created' => 'Tipo de cocina creado correctamente',
             'updated' => 'Tipo de cocina actualizado correctamente',
             'deleted' => 'Tipo de cocina se eliminado correctamente'
+        ],
+        'establishments' => [
+            'created' => 'Establimiento creado correctamente',
+            'updated' => 'Establimiento actualizado correctamente',
+            'deleted' => 'Establimiento eliminado correctamente'
         ]
     ],
     'menu' => [

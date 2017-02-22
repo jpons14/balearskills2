@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Models\Establishment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Session;
 
 class EstablishmentController extends Controller
 {
@@ -16,9 +17,13 @@ class EstablishmentController extends Controller
     public function index()
     {
         $establishments = Establishment::all();
-        return view( 'backend.establishments.index', [
+        if (count($establishments) == 0){
+            $errorMessage = trans('messages.errors.establishments.no.establishment');
+            Session::flash('errorMessage', $errorMessage);
+        }
+        return view('backend.establishments.index', [
             'establishments' => $establishments
-        ] );
+        ]);
     }
 
     /**
@@ -28,7 +33,7 @@ class EstablishmentController extends Controller
      */
     public function create()
     {
-        return view( 'backend.establishments.create' );
+        return view('backend.establishments.create');
     }
 
     /**
@@ -37,39 +42,78 @@ class EstablishmentController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store( Request $request )
+    public function store(Request $request)
     {
-        $establishment = new Establishment();
-        if (
-            isset( $request->name ) && $request->name != ''
-            && isset( $request->description_esp ) && $request->description_esp != ''
-            && isset( $request->description_cat ) && $request->description_cat != ''
-            && isset( $request->timetable_esp ) && $request->timetable_esp != ''
-            && isset( $request->timetable_cat ) && $request->timetable_cat != ''
-            && isset( $request->city ) && $request->city != ''
-            && isset( $request->phone ) && $request->phone != ''
-            && isset( $request->web ) && $request->web != ''
-            && isset( $request->price ) && $request->price != ''
-        ) {
-            $establishment->name = $request->name;
-            $establishment->description_esp = $request->description_esp;
-            $establishment->description_cat = $request->description_cat;
-            $establishment->timetable_esp = $request->timetable_esp;
-            $establishment->timetable_cat = $request->timetable_cat;
-            $establishment->address = $request->address;
-            $establishment->city = $request->city;
-            $establishment->phone = $request->phone;
-            $establishment->web = $request->web;
-            $establishment->web = $request->web;
-            $establishment->price = $request->price;
-            $establishment->save();
-            \Session::set('message', 'Establishment created successfully');
-            \Session::set('typeAlert', 'alert-success');
-        } else {
-            \Session::set('message','The establishment could not be created');
-            \Session::set('typeAlert', 'alert-warning');
+        $error = false;
+        if (!isset($request->name) || $request->name == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.name');
         }
-        return redirect()->route('establishments.show', $establishment );
+        if (!isset($request->description_esp) || $request->description_esp == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.description_esp');
+        }
+        if (!isset($request->description_cat) || $request->description_cat == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.description_cat');
+        }
+        if (!isset($request->timetable_esp) || $request->timetable_esp == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.timetable_esp');
+        }
+        if (!isset($request->timetable_cat) || $request->timetable_cat == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.timetable_cat');
+        }
+        if (!isset($request->city) || $request->city == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.city');
+        }
+        if (!isset($request->phone) || $request->phone == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.phone');
+        }
+        if (!isset($request->web) || $request->web == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.web');
+        }
+        if (!isset($request->price) || $request->price == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.price');
+        }
+
+        if ($error) {
+            return redirect()->route('establishments.create')->with('data', [
+                'errorMessage' => $errorMessage,
+                'request' => $request->toArray()
+            ]);
+        }
+
+
+        $establishment = new Establishment();
+
+        $establishment->name = $request->name;
+        $establishment->description_esp = $request->description_esp;
+        $establishment->description_cat = $request->description_cat;
+        $establishment->timetable_esp = $request->timetable_esp;
+        $establishment->timetable_cat = $request->timetable_cat;
+        $establishment->address = $request->address;
+        $establishment->city = $request->city;
+        $establishment->phone = $request->phone;
+        $establishment->web = $request->web;
+        $establishment->web = $request->web;
+        $establishment->price = $request->price;
+        if (!$establishment->save()) {
+            $errorMessage = trans('messages.errors.establishments.couldnt.created');
+            return redirect()->route('establishments.create')->with('data', [
+                'errorMessage' => $errorMessage,
+                'request' => $request->toArray()
+            ]);
+        }
+        $successMessage = trans('messages.success.establishments.created');
+        return redirect()->route('establishments.show', $establishment->id)->with('data', [
+            'successMessage' => $successMessage
+        ]);
     }
 
     /**
@@ -78,9 +122,9 @@ class EstablishmentController extends Controller
      * @param Establishment $establishment
      * @return \Illuminate\Http\Response
      */
-    public function show( Establishment $establishment )
+    public function show(Establishment $establishment)
     {
-        return view ('backend.establishments.show',[
+        return view('backend.establishments.show', [
             'establishment' => $establishment
         ]);
     }
@@ -91,10 +135,10 @@ class EstablishmentController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit( $id )
+    public function edit($id)
     {
         $establishment = Establishment::find($id);
-        return view( 'backend.establishments.edit', [
+        return view('backend.establishments.edit', [
             'establishment' => $establishment
         ]);
     }
@@ -106,37 +150,78 @@ class EstablishmentController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update( Request $request, $id )
+    public function update(Request $request, $id)
     {
-        $establishment = Establishment::find($id);
-        if (
-            isset( $request->name ) && $request->name != ''
-            && isset( $request->description_esp ) && $request->description_esp != ''
-            && isset( $request->description_cat ) && $request->description_cat != ''
-            && isset( $request->timetable_esp ) && $request->timetable_esp != ''
-            && isset( $request->timetable_cat ) && $request->timetable_cat != ''
-            && isset( $request->city ) && $request->city != ''
-            && isset( $request->phone ) && $request->phone != ''
-            && isset( $request->web ) && $request->web != ''
-            && isset( $request->price ) && $request->price != ''
-        ) {
-            $establishment->name = $request->name;
-            $establishment->description_esp = $request->description_esp;
-            $establishment->description_cat = $request->description_cat;
-            $establishment->timetable_esp = $request->timetable_esp;
-            $establishment->city = $request->city;
-            $establishment->phone = $request->phone;
-            $establishment->web = $request->web;
-            $establishment->web = $request->web;
-            $establishment->price = $request->price;
-            $establishment->save();
-            \Session::set('message','Establishment updated successfully');
-            \Session::set('typeAlert', 'alert-success');
-        } else {
-            \Session::set('message','The establishment could not be updated');
-            \Session::set('typeAlert', 'alert-warning');
+        $error = false;
+        if (!isset($request->name) || $request->name == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.name');
         }
-        return redirect()->route('establishments.show', $establishment);
+        if (!isset($request->description_esp) || $request->description_esp == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.description_esp');
+        }
+        if (!isset($request->description_cat) || $request->description_cat == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.description_cat');
+        }
+        if (!isset($request->timetable_esp) || $request->timetable_esp == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.timetable_esp');
+        }
+        if (!isset($request->timetable_cat) || $request->timetable_cat == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.timetable_cat');
+        }
+        if (!isset($request->city) || $request->city == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.city');
+        }
+        if (!isset($request->phone) || $request->phone == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.phone');
+        }
+        if (!isset($request->web) || $request->web == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.web');
+        }
+        if (!isset($request->price) || $request->price == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.price');
+        }
+
+        if ($error) {
+            return redirect()->route('establishments.edit', $id)->with('data', [
+                'errorMessage' => $errorMessage,
+                'request' => $request->toArray()
+            ]);
+        }
+
+
+        $establishment = Establishment::find($id);
+
+        $establishment->name = $request->name;
+        $establishment->description_esp = $request->description_esp;
+        $establishment->description_cat = $request->description_cat;
+        $establishment->timetable_esp = $request->timetable_esp;
+        $establishment->timetable_cat = $request->timetable_cat;
+        $establishment->address = $request->address;
+        $establishment->city = $request->city;
+        $establishment->phone = $request->phone;
+        $establishment->web = $request->web;
+        $establishment->web = $request->web;
+        $establishment->price = $request->price;
+        if (!$establishment->save()) {
+            $errorMessage = trans('messages.errors.establishments.couldnt.updated');
+            return redirect()->route('establishments.edit')->with('data', [
+                'errorMessage' => $errorMessage,
+                'request' => $request->toArray()
+            ]);
+        }
+        $successMessage = trans('messages.success.establishments.updated');
+        return redirect()->route('establishments.show', $establishment->id)->with('data', [
+            'successMessage' => $successMessage
+        ]);
     }
 
     /**
@@ -145,11 +230,17 @@ class EstablishmentController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy( $id )
+    public function destroy($id)
     {
-        Establishment::destroy($id);
-        \Session::set('message', 'Establishment deleted successfully');
-        \Session::set('typeAlert', 'alert-danger');
-        return redirect()->route('establishments.index');
+        if (!Establishment::destroy($id)) {
+            $errorMessage = trans('messages.errors.establishments.couldnt.deleted');
+            return redirect()->route('establishments.index')->with('data', [
+                'errorMessage' => $errorMessage
+            ]);
+        }
+        $successMessage = trans('messages.success.establishments.deleted');
+        return redirect()->route('establishments.index')->with('data',[
+            'successMessage' => $successMessage
+        ]);
     }
 }

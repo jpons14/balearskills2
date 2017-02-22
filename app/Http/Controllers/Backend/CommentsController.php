@@ -67,10 +67,10 @@ class CommentsController extends Controller
             $errorMessage = trans('messages.errors.comments.needed.text');
         }
         if ($error) {
-            return redirect()->route('comments.create')->with('data', [
-                'errorMessage' => $errorMessage,
-                'request' => $request->toArray()
-            ]);
+                return redirect()->route('comments.create')->with('data', [
+                    'errorMessage' => $errorMessage,
+                    'request' => $request->toArray()
+                ]);
         }
 
         $comment->user_id = $request->user;

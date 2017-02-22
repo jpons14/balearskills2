@@ -28,6 +28,27 @@ return [
             'no' => [
                 'cookingType' => 'No hi ha cap tipus de cuina'
             ]
+        ],
+        'establishments' => [
+            'couldnt' => [
+                'created' => 'L\'establiment no s\'ha pogut crear',
+                'updated' => 'L\'establiment no s\'ha pogut actualitzar',
+                'deleted' => 'L\'establiment no s\'ha pogut eliminar',
+            ],
+            'needed' => [
+                'name' => 'El paràmetre del nom és necessari',
+                'description_esp' => 'El paràmetre de la descripció amb español és necessari',
+                'description_cat' => 'El paràmetre de la descripció amb català és necessari',
+                'timetable_esp' => 'El paràmetre de l\'horari amb español és necessari',
+                'timetable_cat' => 'El paràmetre de l\'horari amb català és necessari',
+                'city' => 'El paràmetre de la ciutat  és necessari',
+                'phone' => 'El paràmetre del telèfon és necessari',
+                'web' => 'El paràmetre de la web és necessari',
+                'price' => 'El paràmetre del preu és necessari',
+            ],
+            'no' => [
+                'establishment' => 'No hi ha cap establiment'
+            ]
         ]
     ],
     'success' => [
@@ -37,9 +58,14 @@ return [
             'deleted' => 'Comentari eliminat correctament'
         ],
         'cookingTypes' => [
-            'created' => 'El Tipus de cuina creat correctament',
-            'updated' => 'El Tipus de cuina actualitzat correctament',
-            'deleted' => 'El Tipus de cuina s\'ha eliminat correctament'
+            'created' => 'Tipus de cuina creat correctament',
+            'updated' => 'Tipus de cuina actualitzat correctament',
+            'deleted' => 'Tipus de cuina s\'ha eliminat correctament'
+        ],
+        'establishments' => [
+            'created' => 'Establiment creat correctament',
+            'updated' => 'Establiment actualitzat correctament',
+            'deleted' => 'Establiment eliminat correctament'
         ]
     ],
     'menu' => [
