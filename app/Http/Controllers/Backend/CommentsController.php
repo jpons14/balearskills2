@@ -21,7 +21,7 @@ class CommentsController extends Controller
     {
         $comments = Comment::all();
         if (count($comments) == 0) {
-            Session::flash('errorMessage', trans('errors.comments.noComments'));
+            Session::flash('errorMessage', trans('messages.errors.comments.no.comments'));
         }
         return view('backend.comments.index', [
             'comments' => $comments,
@@ -56,15 +56,15 @@ class CommentsController extends Controller
 
         if (!isset($request->user) || $request->user == '') {
             $error = true;
-            $errorMessage = trans('errors.comments.userParamIsNeeded');
+            $errorMessage = trans('messages.errors.comments.needed.user');
         }
         if (!isset($request->establishment) || $request->establishment == '') {
             $error = true;
-            $errorMessage = trans('errors.comments.establishmentParamIsNeeded');
+            $errorMessage = trans('messages.errors.comments.needed.establishment');
         }
         if (!isset($request->text) || $request->text == '') {
             $error = true;
-            $errorMessage = trans('errors.comments.textParamIsNeeded');
+            $errorMessage = trans('messages.errors.comments.needed.text');
         }
         if ($error) {
             return redirect()->route('comments.create')->with('data', [
@@ -78,14 +78,14 @@ class CommentsController extends Controller
         $comment->text = $request->text;
 
         if (!$comment->save()) {
-            $errorMessage = trans('errors.comments.commentCouldNotBeCreated');
+            $errorMessage = trans('messages.errors.comments.couldnt.created');
             return redirect()->route('comments.create')->with('data', [
                 'errorMessage' => $errorMessage,
                 'request' => $request->toArray()
             ]);
         }
 
-        $successMessage = trans('success.comments.commentCreated');
+        $successMessage = trans('messages.success.comments.created');
         return redirect()->route('comments.show', $comment->id)->with('data', [
             'successMessage' => $successMessage
         ]);
@@ -145,15 +145,15 @@ class CommentsController extends Controller
 
         if (!isset($request['user']) || $request['user'] == '') {
             $error = true;
-            $errorMessage = trans('errors.comments.userParamIsNeeded');
+            $errorMessage = trans('messages.errors.comments.needed.user');
         }
         if (!isset($request['establishment']) || $request['establishment'] == '') {
             $error = true;
-            $errorMessage = trans('errors.comments.userParamIsNeeded');
+            $errorMessage = trans('messages.errors.comments.needed.establishment');
         }
         if (!isset($request['text']) || $request['text'] == '') {
             $error = true;
-            $errorMessage = trans('errors.comments.textParamIsNeeded');
+            $errorMessage = trans('messages.errors.comments.needed.text');
         }
         if ($error) {
             return redirect()->route('comments.edit', $id)->with('data', [
@@ -168,14 +168,14 @@ class CommentsController extends Controller
         $comment->text = $request['text'];
 
         if (!$comment->save()) {
-            $errorMessage = trans('errors.comments.commentCouldNotBeUpdated');
+            $errorMessage = trans('messages.errors.comments.couldnt.updated');
             return redirect()->route('comments.update', $comment->id)->with('data', [
                 'errorMessage' => $errorMessage,
                 'request' => $request->toArray()
             ]);
         }
 
-        $successMessage = trans('success.comments.commentUpdated');
+        $successMessage = trans('messages.success.comments.updated');
 
         return redirect()->route('comments.show', $comment->id)->with('data', [
             'successMessage' => $successMessage
@@ -191,13 +191,13 @@ class CommentsController extends Controller
     public function destroy($id)
     {
         if (!Comment::destroy($id)) {
-            $errorMessage = trans('errors.comments.couldNotBeDeleted');
+            $errorMessage = trans('messages.errors.comments.couldnt.deleted');
             return redirect()->route('comments.index')->with('data', [
                 'errorMessage' => $errorMessage
             ]);
         }
 
-        $successMessage = trans('success.comments.commentDeleted');
+        $successMessage = trans('messages.success.comments.deleted');
 
         return redirect()->route('comments.index')->with('data', [
             'successMessage' => $successMessage

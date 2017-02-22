@@ -1,5 +1,22 @@
 @extends('layouts.app')
 @section('content')
+    <?php
+    $centinelaError = Session::has('errorMessage');
+    ?>
+    @if ($centinelaError)
+        <div class="container">
+            <div class="alert alert-warning">
+                {{ Session::get('errorMessage') }}
+            </div>
+        </div>
+    @endif
+    @if(session('data')['successMessage'])
+        <div class="container">
+            <div class="alert alert-success">
+                {{ session('data')['successMessage'] }}
+            </div>
+        </div>
+    @endif
     <div class="container">
         <div class="col-md-12">
             <table class="table table-striped">

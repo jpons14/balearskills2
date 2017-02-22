@@ -16,9 +16,12 @@ class CookingTypesController extends Controller
     public function index()
     {
         $cookingTypes = CookingType::all();
-        return view( 'backend.cookingTypes.index', [
+        if (count($cookingTypes) == 0) {
+            Session::flash('errorMessage', trans('messages.errors.cookingTypes.no.cookingType'));
+        }
+        return view('backend.cookingTypes.index', [
             'cookingTypes' => $cookingTypes
-        ] );
+        ]);
     }
 
     /**
@@ -28,7 +31,7 @@ class CookingTypesController extends Controller
      */
     public function create()
     {
-        return view( 'backend.cookingTypes.create' );
+        return view('backend.cookingTypes.create');
     }
 
     /**
@@ -37,15 +40,32 @@ class CookingTypesController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store( Request $request )
+    public function store(Request $request)
     {
-        $cookingType = new CookingType();
-        if ( isset( $request->name ) && $request != '' ) {
-            $cookingType->name = $request->name;
-            $cookingType->save();
-            \Session::set('message', 'Cooking type created successfully');
+        $error = false;
+        if (!isset($request->name) || $request->name == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.cookingTypes.needed.name');
         }
-        return redirect()->route( 'cookingTypes.show', $cookingType->id );
+        if ($error) {
+            return redirect()->route('cookingTypes.create')->with('data', [
+                'errorMessage' => $errorMessage
+            ]);
+        }
+        $cookingType = new CookingType();
+        $cookingType->name = $request->name;
+        if (!$cookingType->save()) {
+            $errorMessage = trans('messages.errors.cookingTypes.couldnt.created');
+            return redirect()->route('cookingTypes.create')->with('data', [
+                'errorMessage' => $errorMessage
+            ]);
+        }
+
+
+
+        return redirect()->route('cookingTypes.show', $cookingType->id)->with('data', [
+            'successMessage' => trans('messages.success.cookingTypes.created')
+        ]);
     }
 
     /**
@@ -54,11 +74,11 @@ class CookingTypesController extends Controller
      * @param CookingType $cookingType
      * @return \Illuminate\Http\Response
      */
-    public function show( CookingType $cookingType )
+    public function show(CookingType $cookingType)
     {
-        return view( 'backend.cookingTypes.show', [
+        return view('backend.cookingTypes.show', [
             'cookingType' => $cookingType
-        ] );
+        ]);
     }
 
     /**
@@ -66,10 +86,10 @@ class CookingTypesController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function edit( $id )
+    public function edit($id)
     {
         $cookingType = CookingType::find($id);
-        return view( 'backend.cookingTypes.edit', [
+        return view('backend.cookingTypes.edit', [
             'cookingType' => $cookingType
         ]);
     }
@@ -80,17 +100,41 @@ class CookingTypesController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function update( $id )
+    public function update($id)
     {
+        // todo: a revisar
         $request = \Request::all();
-        $cookingType = CookingType::find($id);
-        if (isset($request['name']) && $request['name'] != '') {
-            $cookingType->name = $request['name'];
-            $cookingType->save();
-            \Session::set('message', 'Comment updated successfully');
-            \Session::set('typeAlert', 'alert-success');
+
+        $error = false;
+
+        if (!isset($request['name']) || $request['name'] == '') {
+            $error = true;
+            $errorMessage = trans('messages.errors.cookingTypes.needed.name');
         }
-        return redirect()->route('cookingTypes.show', $cookingType->id);
+
+        if ($error) {
+            return redirect()->route('cookingTypes.edit', $id)->with('data', [
+                'errorMessage' => $errorMessage,
+                'request' => $request
+            ]);
+        }
+
+        $cookingType = CookingType::find($id);
+        $cookingType->name = $request['name'];
+
+        if (!$cookingType->save()) {
+            $errorMessage = trans('messages.errors.cookingTypes.couldnt.updated');
+            return redirect()->route('cookingTypes.update', $cookingType->id)->with('data', [
+                'errorMessage' => $errorMessage,
+                'request' => $request
+            ]);
+        }
+
+        $successMessage = trans('messages.success.cookingTypes.updated');
+
+        return redirect()->route('cookingTypes.show', $cookingType->id)->with('data', [
+            'successMessage' => $successMessage
+        ]);
     }
 
     /**
@@ -99,11 +143,15 @@ class CookingTypesController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy( $id )
+    public function destroy($id)
     {
-        CookingType::destroy($id);
-        \Session::set('message', 'Cooking type deleted successfully');
-        \Session::set('typeAlert', 'alert-danger');
-        return redirect()->route('cookingTypes.index');
+        if (!CookingType::destroy($id)) {
+            return redirect()->route('cookingTypes.index')->with('data', [
+                'errorMessage' => trans('messages.errors.cookingTypes.couldnt.deleted')
+            ]);
+        }
+        return redirect()->route('cookingTypes.index')->with('data', [
+            'successMessage' => trans('messages.success.cookingTypes.deleted')
+        ]);
     }
 }
