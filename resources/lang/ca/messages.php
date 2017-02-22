@@ -41,5 +41,10 @@ return [
             'updated' => 'El Tipus de cuina actualitzat correctament',
             'deleted' => 'El Tipus de cuina s\'ha eliminat correctament'
         ]
+    ],
+    'menu' => [
+        'establishments' => 'Establiments',
+        'cookingTypes' => 'Tipus de cuina',
+        'comments' => 'Comentaris'
     ]
 ];

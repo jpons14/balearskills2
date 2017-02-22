@@ -50,9 +50,9 @@
                 </ul>
                 @if(!Auth::guest())
                     <ul class="nav navbar-nav navbar-left">
-                        <li><a href="{{route('comments.index')}}">Comentarios</a></li>
-                        <li><a href="{{route('cookingTypes.index')}}">Tipos Cocina</a></li>
-                        <li><a href="{{route('establishments.index')}}">Establecimientos</a></li>
+                        <li><a href="{{route('comments.index')}}">@lang('messages.menu.comments')</a></li>
+                        <li><a href="{{route('cookingTypes.index')}}">@lang('messages.menu.cookingTypes')</a></li>
+                        <li><a href="{{route('establishments.index')}}">@lang('messages.menu.establishments')</a></li>
                     </ul>
             @endif
             <!-- Right Side Of Navbar -->
