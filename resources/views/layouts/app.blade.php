@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -68,6 +68,7 @@
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
 
+
                             <ul class="dropdown-menu" role="menu">
                                 <li>
                                     <a href="{{ url('/logout') }}"
@@ -89,9 +90,6 @@
         </div>
     </nav>
 
-    <div class="alert-error">
-        <strong>{{Session::get('errorMessage')}}</strong>
-    </div>
     @yield('content')
 </div>
 

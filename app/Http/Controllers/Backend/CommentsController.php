@@ -20,9 +20,12 @@ class CommentsController extends Controller
     public function index()
     {
         $comments = Comment::all();
-        return view( 'backend.comments.index', [
+        if (count($comments) == 0) {
+            Session::flash('errorMessage', trans('errors.comments.noComments'));
+        }
+        return view('backend.comments.index', [
             'comments' => $comments,
-        ] );
+        ]);
     }
 
     /**
@@ -33,13 +36,11 @@ class CommentsController extends Controller
     public function create()
     {
         $users = User::all();
-//        if (isset(Session::get('errorMessage'))
-//            dd(Session::get('errorMessage'));
         $establishments = Establishment::all();
-        return view( 'backend.comments.create', [
+        return view('backend.comments.create', [
             'users' => $users,
             'establishments' => $establishments
-        ] );
+        ]);
     }
 
     /**
@@ -48,43 +49,46 @@ class CommentsController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store( Request $request )
+    public function store(Request $request)
     {
         $error = false;
         $comment = new Comment();
 
-        if (!isset($request->user) || $request->user == ''){
+        if (!isset($request->user) || $request->user == '') {
             $error = true;
-            $errorMessage = 'User param is needed';
+            $errorMessage = trans('errors.comments.userParamIsNeeded');
         }
-        if (!isset($request->establishment) || $request->establishment == ''){
+        if (!isset($request->establishment) || $request->establishment == '') {
             $error = true;
-            $errorMessage = 'Establishment param is needed';
+            $errorMessage = trans('errors.comments.establishmentParamIsNeeded');
         }
-        if (!isset($request->text) || $request->text == ''){
+        if (!isset($request->text) || $request->text == '') {
             $error = true;
-            $errorMessage = 'Text param is needed';
+            $errorMessage = trans('errors.comments.textParamIsNeeded');
         }
-        if ($error){
-            Session::flash('errorMessage', $errorMessage);
-            Session::flash('request', $request);
-            return redirect()->route('comments.create');
+        if ($error) {
+            return redirect()->route('comments.create')->with('data', [
+                'errorMessage' => $errorMessage,
+                'request' => $request->toArray()
+            ]);
         }
 
         $comment->user_id = $request->user;
         $comment->establishment_id = $request->establishment;
         $comment->text = $request->text;
 
-        if (!$comment->save()){
-            $errorMessage = 'The comment could not be created';
-            Session::flash('errorMessage', $errorMessage);
-            Session::flash('requeset', $request);
-            return redirect()->route('comments.create');
+        if (!$comment->save()) {
+            $errorMessage = trans('errors.comments.commentCouldNotBeCreated');
+            return redirect()->route('comments.create')->with('data', [
+                'errorMessage' => $errorMessage,
+                'request' => $request->toArray()
+            ]);
         }
 
-        $successMessage = 'Comment created successfully';
-        Session::flash('successMessage', $successMessage);
-        return redirect()->route('comments.show', $comment->id);
+        $successMessage = trans('success.comments.commentCreated');
+        return redirect()->route('comments.show', $comment->id)->with('data', [
+            'successMessage' => $successMessage
+        ]);
     }
 
     /**
@@ -93,15 +97,15 @@ class CommentsController extends Controller
      * @param Comment $comment
      * @return \Illuminate\Http\Response
      */
-    public function show( Comment $comment )
+    public function show(Comment $comment)
     {
         $user = $comment->user;
         $establishment = $comment->establishment;
-        return view( 'backend.comments.show', [
+        return view('backend.comments.show', [
             'comment' => $comment,
             'user' => $user,
             'establishment' => $establishment
-        ] );
+        ]);
     }
 
     /**
@@ -110,20 +114,20 @@ class CommentsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit( $id )
+    public function edit($id)
     {
-        $comment = Comment::find( $id );
+        $comment = Comment::find($id);
         $user = $comment->user;
         $establishment = $comment->establishment;
         $users = User::all();
         $establishments = Establishment::all();
-        return view( 'backend.comments.edit', [
+        return view('backend.comments.edit', [
             'comment' => $comment,
             'userSelected' => $user,
             'users' => $users,
             'establishmentSelected' => $establishment,
             'establishments' => $establishments
-        ] );
+        ]);
     }
 
     /**
@@ -132,22 +136,50 @@ class CommentsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update( $id )
+    public function update($id)
     {
+        // todo: a revisar
         $request = \Request::all();
-        $comment = Comment::find( $id );
-        if (
-            isset( $request[ 'user' ] ) && $request[ 'user' ] != ''
-            && isset( $request[ 'establishment' ] ) && $request[ 'establishment' ] != ''
-            && isset( $request[ 'text' ] ) && $request[ 'text' ] != ''
-        ) {
-            $comment->user_id = $request[ 'user' ];
-            $comment->establishment_id = $request[ 'establishment' ];
-            $comment->text = $request[ 'text' ];
-            $comment->save();
-            \Session::set('message', 'Comment updated successfully');
+
+        $error = false;
+
+        if (!isset($request['user']) || $request['user'] == '') {
+            $error = true;
+            $errorMessage = trans('errors.comments.userParamIsNeeded');
         }
-        return redirect()->route( 'comments.show', $comment->id);
+        if (!isset($request['establishment']) || $request['establishment'] == '') {
+            $error = true;
+            $errorMessage = trans('errors.comments.userParamIsNeeded');
+        }
+        if (!isset($request['text']) || $request['text'] == '') {
+            $error = true;
+            $errorMessage = trans('errors.comments.textParamIsNeeded');
+        }
+        if ($error) {
+            return redirect()->route('comments.edit', $id)->with('data', [
+                'errorMessage' => $errorMessage,
+                'request' => $request
+            ]);
+        }
+        $comment = Comment::find($id);
+
+        $comment->user_id = $request['user'];
+        $comment->establishment_id = $request['establishment'];
+        $comment->text = $request['text'];
+
+        if (!$comment->save()) {
+            $errorMessage = trans('errors.comments.commentCouldNotBeUpdated');
+            return redirect()->route('comments.update', $comment->id)->with('data', [
+                'errorMessage' => $errorMessage,
+                'request' => $request->toArray()
+            ]);
+        }
+
+        $successMessage = trans('success.comments.commentUpdated');
+
+        return redirect()->route('comments.show', $comment->id)->with('data', [
+            'successMessage' => $successMessage
+        ]);
     }
 
     /**
@@ -156,10 +188,19 @@ class CommentsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy( $id )
+    public function destroy($id)
     {
-        Comment::destroy( $id );
-        \Session::set('message', 'Comment deleted successfully');
-        return redirect()->route( 'comments.index');
+        if (!Comment::destroy($id)) {
+            $errorMessage = trans('errors.comments.couldNotBeDeleted');
+            return redirect()->route('comments.index')->with('data', [
+                'errorMessage' => $errorMessage
+            ]);
+        }
+
+        $successMessage = trans('success.comments.commentDeleted');
+
+        return redirect()->route('comments.index')->with('data', [
+            'successMessage' => $successMessage
+        ]);
     }
 }

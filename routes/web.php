@@ -14,7 +14,8 @@
 Route::get( '/', function (){
     return view( 'welcome' );
 } );
-
+//tests
+Route::get('/lang/{lan}', array('uses' => 'Controller@setLang', 'as' => 'lang'));
 
 Route::resource('establishments', 'Backend\EstablishmentController');
 Route::resource('comments', 'Backend\CommentsController');
