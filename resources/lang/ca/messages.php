@@ -56,6 +56,7 @@ return [
                 'created' => 'La foto no s\'ha pogut crear',
                 'updated' => 'La foto no s\'ha pogut actualitzar',
                 'deleted' => 'La foto no s\'ha pogut eliminar',
+                'push' => 'La foto no s\'ha pogut pujar'
             ],
             'needed' => [
                 'establishment' => 'El paràmetre del establiment és necessari',

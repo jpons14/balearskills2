@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\Establishment;
+use App\Models\Photo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Session;
 
 class PhotosController extends Controller
 {
@@ -14,7 +17,13 @@ class PhotosController extends Controller
      */
     public function index()
     {
-        //
+        $photos = Photo::all();
+        if (count($photos) == 0){
+            Session::flash('errorMessage', trans('messages.errors.photos.no.photo'));
+        }
+        return view('backend.photos.index', [
+            'photos' => $photos
+        ]);
     }
 
     /**
@@ -24,7 +33,13 @@ class PhotosController extends Controller
      */
     public function create()
     {
-        //
+        $establishments = Establishment::all();
+        if (count($establishments) == 0){
+            Session::flash('errorMessage', trans('messages.errors.establishments.no.establishment'));
+        }
+        return view('backend.photos.create', [
+            'establishments' => $establishments
+        ]);
     }
 
     /**
@@ -35,7 +50,51 @@ class PhotosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $error = false;
+        if (!isset($request->establishment) || $request->establishment == ''){
+            $error = true;
+            $errorMessage = trans('messages.errors.photos.needed.establishment');
+        }
+        if (!isset($request->name) || $request->name == ''){
+            $error = true;
+            $errorMessage = trans('messages.errors.photos.needed.name');
+        }
+        if (!isset($request->route) || $request->route == ''){
+            $error = true;
+            $errorMessage = trans('messages.errors.photos.needed.route');
+        }
+        if (!isset($request->alt_text) || $request->alt_text == ''){
+            $error = true;
+            $errorMessage = trans('messages.errors.photos.needed.altText');
+        }
+        if ($error){
+            return redirect()->route('photos.create')->with('data', [
+                'errorMessage' => $errorMessage
+            ]);
+        }
+        $photo = new Photo();
+        $photo->establishment_id = $request->establishment;
+        $photo->name = $request->name;
+        $photo->route = $request->route;
+        $photo->alt_text = $request->alt_text;
+        if (!$photo->save()){
+            $errorMessage = trans('messages.errors.photos.couldnt.created');
+            return redirect()->route('photos.create')->with('data', [
+                'errorMessage' => $errorMessage
+            ]);
+        }
+        request()->file('img')->store('restaurants');
+//        if (!request()->file('restaurant')->store('restaurants')){
+//            $errorMessage = trans('messages.errors.photos.couldnt.push');
+//            return redirect()->route('photos.create')->with('data', [
+//                'errorMessage' => $errorMessage
+//            ]);
+//        }
+
+        $successMessage = trans('messages.success.photos.created');
+        return redirect()->route('photos.show', $photo->id)->with('data',[
+            'successMessage' => $successMessage
+        ]);
     }
 
     /**
@@ -46,7 +105,10 @@ class PhotosController extends Controller
      */
     public function show($id)
     {
-        //
+        $photo = Photo::find($id);
+        return view('backend.photos.show', [
+            'photo' => $photo
+        ]);
     }
 
     /**

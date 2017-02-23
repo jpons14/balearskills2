@@ -56,6 +56,7 @@ return [
                 'created' => 'La foto no ha podido ser creada',
                 'updated' => 'La foto no se ha podido actualizar',
                 'deleted' => 'La foto no se ha podido eliminar',
+                'push' => 'La foto no se ha podido subir'
             ],
             'needed' => [
                 'establishment' => 'El parámetro del establecimiento de la foto es necesario',
