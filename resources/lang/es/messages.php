@@ -45,6 +45,7 @@ return [
                 'phone' => 'El parámetro del teléfono del establecimiento es necesario',
                 'web' => 'El parámetro de la web del establecimiento es necesario',
                 'price' => 'El parámetro del precio del establecimiento es necesario',
+                'cookingType' => 'El parámetro de tipos de cocina del establecimiento es necesario'
             ],
             'no' => [
                 'establishment' => 'No hay ningún establecimiento'
@@ -72,5 +73,8 @@ return [
         'establishments' => 'Establecimientos',
         'cookingTypes' => 'Tipos de cocina',
         'comments' => 'Comentarios'
+    ],
+    'toolTip' => [
+        'selectMultiple' => 'Apreta Ctrl + click para seleccionar varias opciones'
     ]
 ];

@@ -45,6 +45,7 @@ return [
                 'phone' => 'El paràmetre del telèfon és necessari',
                 'web' => 'El paràmetre de la web és necessari',
                 'price' => 'El paràmetre del preu és necessari',
+                'cookingType' => 'El paràmetre del tipus de cuines és necesari'
             ],
             'no' => [
                 'establishment' => 'No hi ha cap establiment'
@@ -72,5 +73,8 @@ return [
         'establishments' => 'Establiments',
         'cookingTypes' => 'Tipus de cuina',
         'comments' => 'Comentaris'
+    ],
+    'toolTip' => [
+        'selectMultiple' => 'Apreta Ctrl + click per seleccionar varies opcions'
     ]
 ];

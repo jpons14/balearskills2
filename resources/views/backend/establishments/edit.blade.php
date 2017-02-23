@@ -8,8 +8,8 @@
             </div>
         </div>
     @endif
-    <form action="{{ route('establishments.update', $establishment->id) }}" method="post" >
-        <input type="hidden" name="_method" value="put" />
+    <form action="{{ route('establishments.update', $establishment->id) }}" method="post">
+        <input type="hidden" name="_method" value="put"/>
         <div class="container">
             <h1 class="text-center text-capitalize">{{$establishment->name}}</h1>
         </div>
@@ -28,10 +28,12 @@
                               class="form-control">{{$establishment->description_cat}}</textarea>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="timetable_esp" class="form-control" value="{{$establishment->timetable_esp}}"/>
+                    <input type="text" name="timetable_esp" class="form-control"
+                           value="{{$establishment->timetable_esp}}"/>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="timetable_cat" class="form-control" value="{{$establishment->timetable_cat}}"/>
+                    <input type="text" name="timetable_cat" class="form-control"
+                           value="{{$establishment->timetable_cat}}"/>
                 </div>
                 <div class="form-group">
                     <input type="text" name="city" class="form-control" value="{{$establishment->city}}"/>
@@ -47,10 +49,22 @@
                 </div>
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="text" placeholder="Price" name="price" value="{{$establishment->price}}" class="form-control"/>
+                        <input type="text" placeholder="Price" name="price" value="{{$establishment->price}}"
+                               class="form-control"/>
                         <div class="input-group-addon">€</div>
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <select name="cookingTypes[]" id="cookingTypes" class="form-control" multiple="multiple">
+                            @foreach($cookingTypes as $cookingType)
+                                <option value="{{$cookingType->id}}">{{$cookingType->name}}</option>
+                            @endforeach
+                        </select>
+                        <div class="input-group-addon" data-toggle="tooltip" title="@lang('messages.toolTip.selectMultiple')" data-toggle="tooltip"><i class="fa fa-info"></i> </div>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <input type="submit" class="form-control btn btn-default" value="Actualiza"/>
                 </div>
@@ -58,4 +72,9 @@
             </div>
         </div>
     </form>
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 @endsection

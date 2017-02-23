@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class EstablishmentsCookingTypes extends Migration
+class CookingTypesEstablishments extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class EstablishmentsCookingTypes extends Migration
      */
     public function up()
     {
-        Schema::create('establishments_cooking_types', function (Blueprint $table){
+        Schema::create('cooking_type_establishment', function (Blueprint $table){
             $table->increments('id');
             $table->integer('establishment_id')->unsigned();
             $table->integer('cooking_type_id')->unsigned();

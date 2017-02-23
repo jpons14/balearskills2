@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\CookingType;
 use App\Models\Establishment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 use Session;
 
 class EstablishmentController extends Controller
@@ -82,6 +84,11 @@ class EstablishmentController extends Controller
             $errorMessage = trans('messages.errors.establishments.needed.price');
         }
 
+        if (!isset($request->cookingTypes) || $request->cookingTypes == ''){
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.cookingType');
+        }
+
         if ($error) {
             return redirect()->route('establishments.create')->with('data', [
                 'errorMessage' => $errorMessage,
@@ -103,6 +110,10 @@ class EstablishmentController extends Controller
         $establishment->web = $request->web;
         $establishment->web = $request->web;
         $establishment->price = $request->price;
+        foreach ($request->cookingTypes as $cookingType) {
+            $establishment->cookingTypes()->attach($cookingType);
+        }
+
         if (!$establishment->save()) {
             $errorMessage = trans('messages.errors.establishments.couldnt.created');
             return redirect()->route('establishments.create')->with('data', [
@@ -124,8 +135,10 @@ class EstablishmentController extends Controller
      */
     public function show(Establishment $establishment)
     {
+        $cookingTypes = $establishment->cookingTypes;
         return view('backend.establishments.show', [
-            'establishment' => $establishment
+            'establishment' => $establishment,
+            'cookingTypes' => $cookingTypes
         ]);
     }
 
@@ -138,8 +151,13 @@ class EstablishmentController extends Controller
     public function edit($id)
     {
         $establishment = Establishment::find($id);
+        $cookingTypes = CookingType::all();
+        if (count($cookingTypes) == 0){
+            Session::flash('errorMessage', trans('messages.errors.cookingTypes.no.cookingType'));
+        }
         return view('backend.establishments.edit', [
-            'establishment' => $establishment
+            'establishment' => $establishment,
+            'cookingTypes' => $cookingTypes
         ]);
     }
 
@@ -153,6 +171,7 @@ class EstablishmentController extends Controller
     public function update(Request $request, $id)
     {
         $error = false;
+
         if (!isset($request->name) || $request->name == '') {
             $error = true;
             $errorMessage = trans('messages.errors.establishments.needed.name');
@@ -190,12 +209,18 @@ class EstablishmentController extends Controller
             $errorMessage = trans('messages.errors.establishments.needed.price');
         }
 
+        if (!isset($request->cookingTypes) || $request->cookingTypes == ''){
+            $error = true;
+            $errorMessage = trans('messages.errors.establishments.needed.cookingType');
+        }
+
         if ($error) {
             return redirect()->route('establishments.edit', $id)->with('data', [
                 'errorMessage' => $errorMessage,
                 'request' => $request->toArray()
             ]);
         }
+
 
 
         $establishment = Establishment::find($id);
@@ -211,6 +236,9 @@ class EstablishmentController extends Controller
         $establishment->web = $request->web;
         $establishment->web = $request->web;
         $establishment->price = $request->price;
+        foreach ($request->cookingTypes as $cookingType) {
+            $establishment->cookingTypes()->attach($cookingType);
+        }
         if (!$establishment->save()) {
             $errorMessage = trans('messages.errors.establishments.couldnt.updated');
             return redirect()->route('establishments.edit')->with('data', [

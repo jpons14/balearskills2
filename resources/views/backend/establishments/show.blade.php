@@ -20,6 +20,12 @@
             <strong>Teléfono </strong>{{ $establishment->phone }}<br/>
             <strong>Web </strong>{{ $establishment->web }}<br/>
             <strong>Precio </strong>{{ $establishment->price }}€<br/>
+            <strong>Tipo de cocinas </strong>
+            @foreach($cookingTypes as $cookingType)
+                {{ $cookingType->name }}
+            @endforeach
+
+            <br/>
         </p>
     </div>
     </div>

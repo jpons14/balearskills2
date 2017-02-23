@@ -143,6 +143,7 @@ class CommentsController extends Controller
 
         $error = false;
 
+
         if (!isset($request['user']) || $request['user'] == '') {
             $error = true;
             $errorMessage = trans('messages.errors.comments.needed.user');
