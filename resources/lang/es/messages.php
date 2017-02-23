@@ -50,6 +50,22 @@ return [
             'no' => [
                 'establishment' => 'No hay ningún establecimiento'
             ]
+        ],
+        'photos' => [
+            'couldnt' => [
+                'created' => 'La foto no ha podido ser creada',
+                'updated' => 'La foto no se ha podido actualizar',
+                'deleted' => 'La foto no se ha podido eliminar',
+            ],
+            'needed' => [
+                'establishment' => 'El parámetro del establecimiento de la foto es necesario',
+                'name' => 'El parámetro del nombre de la foto es necesario',
+                'route' => 'El parámetro de la ruta de la foto es necesario',
+                'altText' => 'El parámetro del texto alternativo de la foto es necesario',
+            ],
+            'no' => [
+                'photo' => 'No hay ninguna foto'
+            ]
         ]
     ],
     'success' => [
@@ -67,12 +83,18 @@ return [
             'created' => 'Establimiento creado correctamente',
             'updated' => 'Establimiento actualizado correctamente',
             'deleted' => 'Establimiento eliminado correctamente'
+        ],
+        'photos' => [
+            'created' => 'Foto creada correctamente',
+            'updated' => 'Foto actualizada correctamente',
+            'deleted' => 'Foto eliminada correctamente'
         ]
     ],
     'menu' => [
         'establishments' => 'Establecimientos',
         'cookingTypes' => 'Tipos de cocina',
-        'comments' => 'Comentarios'
+        'comments' => 'Comentarios',
+        'photos' => 'Foto'
     ],
     'toolTip' => [
         'selectMultiple' => 'Apreta Ctrl + click para seleccionar varias opciones'

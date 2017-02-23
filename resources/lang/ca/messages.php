@@ -50,6 +50,22 @@ return [
             'no' => [
                 'establishment' => 'No hi ha cap establiment'
             ]
+        ],
+        'photos' => [
+            'couldnt' => [
+                'created' => 'La foto no s\'ha pogut crear',
+                'updated' => 'La foto no s\'ha pogut actualitzar',
+                'deleted' => 'La foto no s\'ha pogut eliminar',
+            ],
+            'needed' => [
+                'establishment' => 'El paràmetre del establiment és necessari',
+                'name' => 'El paràmetre del nom és necessari',
+                'route' => 'El paràmetre de la ruta és necessari',
+                'altText' => 'El paràmetre del text alternatiu és necessari',
+            ],
+            'no' => [
+                'photo' => 'No hi ha cap foto'
+            ]
         ]
     ],
     'success' => [
@@ -67,12 +83,18 @@ return [
             'created' => 'Establiment creat correctament',
             'updated' => 'Establiment actualitzat correctament',
             'deleted' => 'Establiment eliminat correctament'
+        ],
+        'photos' => [
+            'created' => 'La foto s\'ha creat correctament',
+            'updated' => 'La foto s\'ha actualitzat correctament',
+            'deleted' => 'La foto s\'ha eliminat correctament'
         ]
     ],
     'menu' => [
         'establishments' => 'Establiments',
         'cookingTypes' => 'Tipus de cuina',
-        'comments' => 'Comentaris'
+        'comments' => 'Comentaris',
+        'photos' => 'Fotos'
     ],
     'toolTip' => [
         'selectMultiple' => 'Apreta Ctrl + click per seleccionar varies opcions'
