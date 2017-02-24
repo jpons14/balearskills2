@@ -84,12 +84,7 @@ class PhotosController extends Controller
             ]);
         }
         request()->file('img')->store('restaurants');
-//        if (!request()->file('restaurant')->store('restaurants')){
-//            $errorMessage = trans('messages.errors.photos.couldnt.push');
-//            return redirect()->route('photos.create')->with('data', [
-//                'errorMessage' => $errorMessage
-//            ]);
-//        }
+
 
         $successMessage = trans('messages.success.photos.created');
         return redirect()->route('photos.show', $photo->id)->with('data',[
