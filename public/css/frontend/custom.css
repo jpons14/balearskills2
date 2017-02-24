@@ -16,27 +16,30 @@ span.comment-title {
 }
 
 .p1{
-    background-image: url("/imgs/restaurant1.jpg");
+    background: url("/imgs/restaurant1.jpg");
 }
 .p2 {
-    background-image: url("/imgs/restaurant2.jpg");
+    background: url("/imgs/restaurant2.jpg");
 }
 
 .p3 {
-    background-image: url("/imgs/restaurant3.jpg");
+    background: url("/imgs/restaurant3.jpg");
 }
 
 .p4 {
-    background-image: url("/imgs/restaurant4.jpg");
+    background: url("/imgs/restaurant4.jpg");
 }
 
 .parallax {
     /* The image used */
 
-    /* Set a specific height */
+
+    /*border: #40ff60 1px solid;*/
+    /*overflow: hidden;*/
     height: 500px;
 
     /* Create the parallax scrolling effect */
+
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -67,6 +70,10 @@ span.comment-title {
 .m10{
     margin-top: 10%;
 }
+.float-right{
+    float: right;
+}
+
 .card-image{
     /*width: 200px; !* whatever set width *!*/
     /*height: 100px;*/
