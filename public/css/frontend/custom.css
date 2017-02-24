@@ -1,0 +1,81 @@
+i.fa-times:hover {
+    cursor: pointer;
+}
+
+i.fa-times {
+    color: #ff4d44;
+}
+.card-img-top{
+    height: 300px !important;
+}
+
+span.comment-title {
+    color: black !important;
+    font-size: 40px;
+    font-family: 'Playball', cursive;
+}
+
+.p1{
+    background-image: url("/imgs/restaurant1.jpg");
+}
+.p2 {
+    background-image: url("/imgs/restaurant2.jpg");
+}
+
+.p3 {
+    background-image: url("/imgs/restaurant3.jpg");
+}
+
+.p4 {
+    background-image: url("/imgs/restaurant4.jpg");
+}
+
+.parallax {
+    /* The image used */
+
+    /* Set a specific height */
+    height: 500px;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.restaurant-2 {
+    background: url('/imgs/restaurant2.jpg') no-repeat center center;
+    background-size: cover;
+    background-position: 70% 50%;
+}
+
+
+.img-title {
+    font-size: 2em;
+    position: relative;
+    top: 41%;
+    width: 100%;
+    color: white;
+    padding: 0;
+    border: 0;
+    display: inline-block;
+    margin-top: 20px;
+}
+.block{
+    disply: block;
+}
+.m10{
+    margin-top: 10%;
+}
+.card-image{
+    /*width: 200px; !* whatever set width *!*/
+    /*height: 100px;*/
+    display: inline-block; /* or you could float them */
+    overflow: hidden;
+}
+.card-image img{
+    width: 100%;
+}
+.card{
+    background-color: #f7f7f7 !important;
+}

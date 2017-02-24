@@ -20,8 +20,8 @@ Route::resource('photos', 'Backend\PhotosController');
 
 // Frontend
 Route::get('/', 'Frontend\FrontendController@index');
-
+Route::get('/restaurants', 'Frontend\FrontendController@restaurants');
 
 Auth::routes();
 
-Route::get( '/home', 'HomeController@index' );
+Route::get('/home', 'HomeController@index');

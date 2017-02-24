@@ -4,3 +4,11 @@ i.fa-times:hover {
 i.fa-times {
     color: #ff4d44;
 }
+h3.black{
+    display: block;
+    color: black !important;
+    background-color: red;
+}
+* {
+    background-color: pink !important;
+}
