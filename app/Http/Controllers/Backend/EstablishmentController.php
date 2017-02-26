@@ -35,7 +35,10 @@ class EstablishmentController extends Controller
      */
     public function create()
     {
-        return view('backend.establishments.create');
+        $cookingTypes = CookingType::all();
+        return view('backend.establishments.create', [
+            'cookingTypes' => $cookingTypes
+        ]);
     }
 
     /**
@@ -152,12 +155,18 @@ class EstablishmentController extends Controller
     {
         $establishment = Establishment::find($id);
         $cookingTypes = CookingType::all();
+        $cookingTypesSelected = $establishment->cookingTypes;
+        $foo = [];
+        foreach ($cookingTypesSelected as $item) {
+            $foo[] = $item->name;
+        }
         if (count($cookingTypes) == 0){
             Session::flash('errorMessage', trans('messages.errors.cookingTypes.no.cookingType'));
         }
         return view('backend.establishments.edit', [
             'establishment' => $establishment,
-            'cookingTypes' => $cookingTypes
+            'cookingTypes' => $cookingTypes,
+            'cookingTypesSelected' => $foo
         ]);
     }
 

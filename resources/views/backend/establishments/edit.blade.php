@@ -58,7 +58,7 @@
                     <div class="input-group">
                         <select name="cookingTypes[]" id="cookingTypes" class="form-control" multiple="multiple">
                             @foreach($cookingTypes as $cookingType)
-                                <option value="{{$cookingType->id}}">{{$cookingType->name}}</option>
+                                <option @if(in_array($cookingType->name, $cookingTypesSelected)) selected="selected" @endif value="{{$cookingType->id}}">{{$cookingType->name}}</option>
                             @endforeach
                         </select>
                         <div class="input-group-addon" data-toggle="tooltip" title="@lang('messages.toolTip.selectMultiple')" data-toggle="tooltip"><i class="fa fa-info"></i> </div>
